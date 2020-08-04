@@ -2,7 +2,21 @@
   become: true
   vars:
     ansible_become_password: "{{ localhost_become_password }}"
+    venv_path: /opt/netapp_ansible
   tasks:
     - name: Install virtualenv
       pip:
         name: virtualenv
+
+    - name: Make venv Directory
+      shell: |
+        virtualenv {{ venv_path }}
+      args:
+        creates: "{{ venv_path }}"
+
+    - name: Install ansible
+      pip:
+        virtualenv: "{{ venv_path }}"
+        name: ansible
+        version: "{{ ansible_version }}"
+        umask: "0022"
