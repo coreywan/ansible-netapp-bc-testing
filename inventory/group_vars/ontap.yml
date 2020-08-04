@@ -20,9 +20,9 @@ snapmirror_sources:
       vserver: vsphere
       name: bc_test1_mirror
       aggregate: na_cluster1_01_FC_1
-    type: DP
+    type: data_protection
     size: 10
-    size_unit: GB
+    size_unit: gb
     policy: DPDefault
     schedule: 5min
 

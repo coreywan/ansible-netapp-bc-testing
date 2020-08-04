@@ -30,8 +30,20 @@
           - netapp-lib
         umask: "0022"
 
+- hosts: localhost
+  become: false
+  gather_facts: false
+  vars:
+    venv_path: /opt/netapp_ansible
+  tasks:
     - name: Setup venv in bashrc
       lineinfile:
         path: ~/.bashrc
         line: source /opt/netapp_ansible/bin/activate
-      become: false
+
+    - name: Install ansible Galaxy collection
+      shell: |
+        source {{ venv_path }}/bin/activate
+        ansible-galaxy collection install netapp.ontap
+      changed_when: "'Skipping' not in gal_inst.stdout"
+      register: gal_inst
