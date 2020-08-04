@@ -1,0 +1,28 @@
+---
+netapp_hostname: "{{ inventory_hostname }}"
+netapp_https: true
+netapp_validate_certs: false
+netapp_username: admin
+netapp_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          39306163643430336233306536336231393237306135313862336630653865353566643437636432
+          6162343065643534313763376337343839613833616630640a623636366437396335386162663933
+          30633433353362363737626266646135353330666238303539643264363135373065656566646237
+          3032373034303265610a396536666462623462653031303364616634303339643530306138356638
+          3932
+
+snapmirror_sources:
+  - source:
+      vserver: vsphere
+      name: bc_test1
+      aggregate: na_cluster1_01_FC_1
+    destination:
+      vserver: vsphere
+      name: bc_test1_mirror
+      aggregate: na_cluster1_01_FC_1
+    type: DP
+    size: 10
+    size_unit: GB
+    policy: DPDefault
+    schedule: 5min
+

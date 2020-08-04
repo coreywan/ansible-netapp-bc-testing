@@ -1,0 +1,38 @@
+- hosts: na-cluster1.example.com
+  vars: 
+    snapmirror_sources:
+      - name: 
+  tasks:
+    - name: Create Source Volumes
+      loop: snapmirror_sources | default([])
+      na_ontap_volume:
+        wait_for_completion: true
+        state: present
+        name: "{{ item.source.name }}"
+        aggregate_name: "{{ item.source.aggregate }}"
+        size: "{{ item.size }}"
+        size_unit: "{{ item.size_unit }}"
+        type: RW
+        vserver: "{{ item.source.vserver }}"
+        hostname: "{{ netapp_hostname }}"
+        username: "{{ netapp_username }}"
+        password: "{{ netapp_password }}"
+        https: "{{ netapp_https | default('true') }}"
+        validate_certs: "{{ netapp_validate_certs | default('false') }}"
+
+    - name: Create Destination Volumes
+      loop: snapmirror_sources | default([])
+      na_ontap_volume:
+        wait_for_completion: true
+        state: present
+        name: "{{ item.destination.name }}"
+        aggregate_name: "{{ item.destination.aggregate }}"
+        size: "{{ item.size }}"
+        size_unit: "{{ item.size_unit }}"
+        type: DP
+        vserver: "{{ item.destination.vserver }}"
+        hostname: "{{ netapp_hostname }}"
+        username: "{{ netapp_username }}"
+        password: "{{ netapp_password }}"
+        https: "{{ netapp_https | default('true') }}"
+        validate_certs: "{{ netapp_validate_certs | default('false') }}"
