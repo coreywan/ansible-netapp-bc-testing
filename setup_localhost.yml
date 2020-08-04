@@ -1,5 +1,6 @@
 - hosts: localhost
   become: true
+  gather_facts: false
   vars:
     ansible_become_password: "{{ localhost_become_password }}"
     venv_path: /opt/netapp_ansible
