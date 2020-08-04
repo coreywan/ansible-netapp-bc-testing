@@ -5,6 +5,10 @@
     ansible_become_password: "{{ localhost_become_password }}"
     venv_path: /opt/netapp_ansible
   tasks:
+    - name: Install Python 3
+      package:
+        name: python3
+
     - name: Install virtualenv
       pip:
         name: virtualenv
