@@ -1,6 +1,6 @@
 - hosts: localhost
   become: true
-  gather_facts: false
+  gather_facts: true
   vars:
     ansible_become_password: "{{ localhost_become_password }}"
     venv_path: /opt/netapp_ansible
@@ -19,7 +19,8 @@
         virtualenv {{ venv_path }}
       args:
         creates: "{{ venv_path }}"
-
+      environment: 
+            PATH: "{{ ansible_env.PATH}}:/sbin:/usr/sbin"
     - name: Install ansible
       pip:
         virtualenv: "{{ venv_path }}"
