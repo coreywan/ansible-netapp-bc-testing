@@ -28,3 +28,9 @@
         name: ansible
         version: "{{ ansible_version }}"
         umask: "0022"
+
+    - name: Setup venv in bashrc
+      lineinfile:
+        path: ~/.bashrc
+        line: source /opt/netapp_ansible/bin/activate
+      become: false
