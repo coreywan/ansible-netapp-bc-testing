@@ -28,7 +28,6 @@
         name:
           - ansible
           - netapp-lib
-        version: "{{ ansible_version }}"
         umask: "0022"
 
     - name: Setup venv in bashrc
