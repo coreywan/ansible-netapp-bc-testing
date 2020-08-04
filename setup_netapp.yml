@@ -1,3 +1,4 @@
+- hosts:
 - hosts: na-cluster1.example.com
   vars: 
     snapmirror_sources:
