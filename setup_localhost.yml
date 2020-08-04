@@ -22,10 +22,12 @@
       environment: 
         PATH: "{{ ansible_env.PATH}}:/usr/local/bin"
 
-    - name: Install ansible
+    - name: Install python modules
       pip:
         virtualenv: "{{ venv_path }}"
-        name: ansible
+        name:
+          - ansible
+          - netapp-lib
         version: "{{ ansible_version }}"
         umask: "0022"
 
