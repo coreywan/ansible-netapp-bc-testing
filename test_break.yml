@@ -7,7 +7,9 @@
       loop: "{{snapmirror_sources | default([])}}"
       delegate_to: localhost
       na_ontap_snapmirror:
-        state: present
+        #state: present
+        relationship_type: data_protection
+        source_path: "{{ item.source.vserver }}:{{ item.source.name }}"
         destination_path: "{{item.destination.vserver }}:{{ item.destination.name }}"
         relationship_state: broken
         hostname: "{{ netapp_hostname }}"
