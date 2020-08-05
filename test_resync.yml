@@ -1,0 +1,18 @@
+- hosts: na-cluster1.example.com
+  gather_facts: false
+  collections:
+    - netapp.ontap
+  tasks:
+    - name: Setup Snapmirror Relationships
+      loop: "{{snapmirror_sources | default([])}}"
+      delegate_to: localhost
+      na_ontap_snapmirror:
+        relationship_type: data_protection
+        source_path: "{{ item.source.vserver }}:{{ item.source.name }}"
+        destination_path: "{{item.destination.vserver }}:{{ item.destination.name }}"
+        relationship_state: active
+        hostname: "{{ netapp_hostname }}"
+        username: "{{ netapp_username }}"
+        password: "{{ netapp_password }}"
+        https: "{{ netapp_https | default('true') }}"
+        validate_certs: "{{ netapp_validate_certs | default('false') }}"
