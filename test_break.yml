@@ -8,8 +8,7 @@
       delegate_to: localhost
       na_ontap_snapmirror:
         state: present
-        destination_volume: "{{ item.destination.name }}"
-        destination_vserver: "{{item.destination.vserver }}"
+        destination_path: "{{item.destination.vserver }}:{{ item.destination.name }}"
         relationship_state: broken
         hostname: "{{ netapp_hostname }}"
         username: "{{ netapp_username }}"
