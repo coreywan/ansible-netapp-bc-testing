@@ -3,7 +3,24 @@
   collections:
     - netapp.ontap
   tasks:
-    - name: Setup Snapmirror Relationships
+    - name: Reverse Mirror
+      loop: "{{snapmirror_sources | default([])}}"
+      delegate_to: localhost
+      na_ontap_snapmirror:
+        relationship_type: data_protection
+        destination_path: "{{ item.source.vserver }}:{{ item.source.name }}"
+        source_path: "{{item.destination.vserver }}:{{ item.destination.name }}"
+        relationship_state: active
+        hostname: "{{ netapp_hostname }}"
+        username: "{{ netapp_username }}"
+        password: "{{ netapp_password }}"
+        https: "{{ netapp_https | default('true') }}"
+        validate_certs: "{{ netapp_validate_certs | default('false') }}"
+
+## Notice that in the current release, when reversing the mirror 
+## location you have to execute the module a second time for
+## the resync operation to take place
+    - name: Invoke Snapmirror
       loop: "{{snapmirror_sources | default([])}}"
       delegate_to: localhost
       na_ontap_snapmirror:
